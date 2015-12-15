@@ -1,0 +1,3 @@
+[submodule "docker-shell"]
+	path = docker-shell
+	url = https://github.com/olegstepura/docker-shell.git
