@@ -17,7 +17,7 @@ Run using:
 ```
 
 Scripts will ask you for all details before running actual commands and will print what it's going to run. 
-After you've setup one or several domains using `run.sh`, setup cron:
+After you've created one or several containers for your domains using `run.sh`, setup cron:
 ```bash
 SHELL=/bin/bash
 MAILTO=your@mail.address
