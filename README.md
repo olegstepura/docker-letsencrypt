@@ -21,9 +21,10 @@ After you've created one or several containers for your domains using `run.sh`, 
 ```bash
 SHELL=/bin/bash
 MAILTO=your@mail.address
+# Time should be unique for each domain to avoid kind of race conditions during nginx restart
 #m  h    dom    mon   dow   user    command
 0   0    1      */2   *     root    /usr/src/docker-letsencrypt/generate.sh domain.com letsencrypt-domain-com
-0   0    1      */2   *     root    /usr/src/docker-letsencrypt/generate.sh otherdomain.org letsencrypt-otherdomain-org
+1   0    1      */2   *     root    /usr/src/docker-letsencrypt/generate.sh otherdomain.org letsencrypt-otherdomain-org
 ```
 
 `generate.sh` backups current certificates, tries to generate new ones in a temporary directory. If reissue runs without errors, certificates are moved to main dir. Nginx is then started in configcheck mode to test if configuration is ok to restart nginx. If everything is ok, nginx is restarted. If nginx configuration test fails, old certitificates are copied back to main dir. You will recieve email in case of an error (cron will send it if you set up everything).
