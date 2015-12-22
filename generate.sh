@@ -5,9 +5,14 @@
 [ -z "$1" ] && { echo >&2 "Please enter domain name as the first argument"; exit 1; }
 [ -z "$2" ] && { echo >&2 "Please enter container name as the second argument"; exit 1; }
 
+VERBOSE=0
 CERT_DIR="/etc/letsencrypt/$1"
-BACKUP_DIR="/etc/letsencrypt/$1/backup-$(date +"%Y-%m-%d")"
-TEMP_DIR="/etc/letsencrypt/$1/tmp/"
+BACKUP_DIR="$CERT_DIR/backup-$(date +"%Y-%m-%d")"
+TEMP_DIR="$CERT_DIR/tmp/"
+
+if [ "$3" == "verbose" ]; then
+	VERBOSE=1
+fi
 
 mkdir -p $BACKUP_DIR
 cp $CERT_DIR/*.{key,crt} $BACKUP_DIR/
@@ -24,6 +29,11 @@ else
 	if /usr/sbin/nginx -t 2>&1 | grep -q "test is successful"; then 
 		#  Nginx successfuly tested config, save to restart
 		/bin/systemctl restart nginx.service
+		if [ "$VERBOSE" == 1 ]; then
+			echo "Certificate for $1 reissued. Nginx restarted."
+			/bin/systemctl status nginx.service
+			cat "$CERT_DIR/$(date +"%Y-%m-%d").log"
+		fi
 	else
 		echo "Nginx test not passed"
 		/usr/sbin/nginx -t
