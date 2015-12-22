@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[ "$EUID" -ne 0 ] && { echo "Please run as root"; exit 1; }
+
 [ -z "$1" ] && { echo >&2 "Please enter domain name as the first argument"; exit 1; }
 [ -z "$2" ] && { echo >&2 "Please enter container name as the second argument"; exit 1; }
 
@@ -22,8 +24,6 @@ else
 	if /usr/sbin/nginx -t 2>&1 | grep -q "test is successful"; then 
 		#  Nginx successfuly tested config, save to restart
 		/bin/systemctl restart nginx.service
-		#REMOVE THIS WHEN EVERYTHING WORKS OK!
-		echo "OK. Should recieve only this message via mail"
 	else
 		echo "Nginx test not passed"
 		/usr/sbin/nginx -t
