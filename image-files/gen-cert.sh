@@ -37,7 +37,11 @@ mkdir -pv "$DIR_CERT" && \
 openssl genrsa -rand file:/dev/random 4096 > "$DIR_CERT/$DOMAIN.key" && \
 openssl req -new -sha256 -key "$DIR_CERT/$DOMAIN.key" -subj "/CN=$DOMAIN" $SAN_ARG -config <(echo -e "$CONFIG") > "$DIR_CERT/$DOMAIN.csr" && \
 python /usr/src/acme-tiny/acme_tiny.py --account-key "$ACCOUNT_KEY" --csr "$DIR_CERT/$DOMAIN.csr" --acme-dir "$WWW_DIR" > "$DIR_CERT/$DOMAIN.standalone.crt" && \
-wget -O - https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.pem > "$DIR_CERT/letsencrypt-intermediate.pem" && \
+wget -O - https://letsencrypt.org/certs/isrgrootx1.pem > "$DIR_CERT/letsencrypt-intermediate.pem" && \
+#wget -O - https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.pem >> "$DIR_CERT/letsencrypt-intermediate.pem" && \
+#wget -O - https://letsencrypt.org/certs/lets-encrypt-x2-cross-signed.pem >> "$DIR_CERT/letsencrypt-intermediate.pem" && \
+#wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem >> "$DIR_CERT/letsencrypt-intermediate.pem" && \
+#wget -O - https://letsencrypt.org/certs/lets-encrypt-x4-cross-signed.pem >> "$DIR_CERT/letsencrypt-intermediate.pem" && \
 cat "$DIR_CERT/$DOMAIN.standalone.crt" "$DIR_CERT/letsencrypt-intermediate.pem" > "$DIR_CERT/$DOMAIN.crt"
 
 # Check if batch of commands has run successfully
