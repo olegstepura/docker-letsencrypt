@@ -29,7 +29,9 @@ MAILTO=your@mail.address
 
 `tls-reissue-and-apply.sh` runs `tls-reissue.sh` and `tls-apply-to-nginx.sh`. Those two scripts were separated to make it easy to update 
 TLSA record in DNS, let it propagate and only then install new TLS certificates to nginx.
-`tls-reissue.sh` backups current certificates, tries to generate new ones in a temporary directory. Save the result.
+
+`tls-reissue.sh` backups current certificates, tries to generate new ones in a temporary directory and saves the result.
+
 `tls-apply-to-nginx.sh` moves certificates to main dir if according to record previous generation was successful. Nginx is then started in configcheck mode to test if configuration is ok to restart nginx. If everything is ok, nginx is restarted. If nginx configuration test fails, old certitificates are copied back to main dir. You will recieve email in case of an error (cron will send it if you set up everything).
 
 ## Nginx config:
