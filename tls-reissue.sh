@@ -9,7 +9,7 @@ VERBOSE=0
 CERT_DIR="/etc/letsencrypt/$1"
 TEMP_DIR="$CERT_DIR/tmp/"
 
-if [ "$3" == "verbose" ]; then
+if [ "$3" == "--verbose" ]; then
 	VERBOSE=1
 fi
 
@@ -24,3 +24,6 @@ if [ -n "${MESSAGE// }" ]; then
 	echo "$MESSAGE"
 fi
 
+if [ "$VERBOSE" == 1 ]; then
+	cat "$CERT_DIR/$(date +"%Y-%m-%d").log" 
+fi
