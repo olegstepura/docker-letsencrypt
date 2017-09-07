@@ -3,6 +3,8 @@
 ## Deprecated
 Now I suggest you to use lego in a container instead of this repo.
 
+## Description
+
 Docker lightweight letsencrypt image with `build` and `run` interactive scripts using [docker-shell](https://github.com/olegstepura/docker-shell). 
 Can be used to issue free TLS (SSL) certificates with letsencrypt without the need to stop web server during certificates reissue (expected web server is `nginx`).
 Uses [cool tiny python scipt for updating certificates via letsencrypt](https://github.com/diafygi/acme-tiny) from [Daniel Roesler](https://github.com/diafygi).
